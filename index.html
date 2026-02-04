@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine ❤️</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    color: white;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .box {
+    background: rgba(0,0,0,0.3);
+    padding: 45px;
+    border-radius: 25px;
+    z-index: 2;
+    max-width: 90%;
+  }
+
+  h1 {
+    font-size: 42px;
+    margin-bottom: 15px;
+  }
+
+  p {
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+
+  .hint {
+    font-size: 18px;
+    opacity: 0.85;
+    margin-top: 10px;
+  }
+
+  button {
+    padding: 16px 40px;
+    margin: 12px;
+    font-size: 22px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+  }
+
+  .yes { background: #00ff9d; color: #000; }
+  .no { background: #ff4d4d; color: white; }
+
+  .heart, .confetti {
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .heart {
+    animation: floatUp 5s linear infinite;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(100vh); opacity: 1; }
+    100% { transform: translateY(-20vh); opacity: 0; }
+  }
+
+  .confetti {
+    width: 10px;
+    height: 10px;
+    animation: fall 4s linear infinite;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-10vh) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(360deg); }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- Softer Piano Music -->
+<audio autoplay loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/10/03/audio_7a08b5d62d.mp3" type="audio/mpeg">
+</audio>
+
+<div class="box" id="card">
+  <h1 id="title"></h1>
+  <p id="text">HELLLOOOO BABY SAHA Will you be my Valentine? 🌹</p>
+  <button class="yes" onclick="yes()">YES 💖</button>
+  <button class="no" onclick="no()">NO 😢</button>
+</div>
+
+<script>
+  /* ===== NAME TYPE ANIMATION ===== */
+  const herName = "SAHA ❤️"; // ← CHANGE THIS
+  let nameIndex = 0;
+
+  function typeName() {
+    if (nameIndex < herName.length) {
+      document.getElementById("title").innerText += herName.charAt(nameIndex);
+      nameIndex++;
+      setTimeout(typeName, 120);
+    }
+  }
+  typeName();
+
+  /* ===== NO BUTTON LOGIC ===== */
+  let noCount = 0;
+
+  const noTexts = [
+    "Are you sure? 🥺",
+    "Really sure? 💔",
+    "oi sochlooo",
+    "but oh pleaaaaase 😭",
+    "oh pleeaaaaase 🥹",
+    "last chance cuz ik u have brain ❤️"
+  ];
+
+  function no() {
+    if (noCount >= noTexts.length) {
+      noCount = 0;
+      document.getElementById("title").innerText = "HAHA 😏";
+      document.getElementById("text").innerText =
+        "YOU THOUGHT — THINK AGAIN ❤️";
+
+      setTimeout(() => {
+        document.getElementById("title").innerText = "";
+        nameIndex = 0;
+        typeName();
+        document.getElementById("text").innerText =
+          "Will you be my Valentine? 🌹";
+      }, 2000);
+      return;
+    }
+
+    document.getElementById("title").innerText = "Wait 😳";
+    document.getElementById("text").innerText = noTexts[noCount];
+    noCount++;
+  }
+
+  /* ===== YES BUTTON ===== */
+  function yes() {
+    document.getElementById("card").innerHTML = `
+      <h1>YAYYYY 💕</h1>
+      <p>You just made me the happiest person ❤️</p>
+      <p>Happy PRE Valentine’s Day BB SAHA 🌹</p>
+      <p class="hint">📸 Screenshot this ❤️</p>
+      <p class="hint">💬 Sending a message… wait 5 seconds</p>
+    `;
+
+    // Heart + confetti burst
+    for (let i = 0; i < 160; i++) {
+      setTimeout(createHeart, i * 25);
+      setTimeout(createConfetti, i * 25);
+    }
+
+    // WhatsApp delay (5 seconds)
+    setTimeout(() => {
+      const number = "923218916355"; // ← YOUR NUMBER
+      const msg = encodeURIComponent(
+        "She said YES ❤️🥰 Happy PRE Valentine’s Day SEN!"
+      );
+      window.location.href = `https://wa.me/${number}?text=${msg}`;
+    }, 5000);
+  }
+
+  /* ===== EFFECTS ===== */
+  function createHeart() {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerText = "❤️";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.fontSize = (22 + Math.random() * 28) + "px";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 5000);
+  }
+
+  function createConfetti() {
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.background =
+      ["#ff0","#0ff","#0f0","#f0f","#f00"][Math.floor(Math.random()*5)];
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 4000);
+  }
+
+  // Gentle background hearts
+  setInterval(createHeart, 800);
+</script>
+
+</body>
+</html>
